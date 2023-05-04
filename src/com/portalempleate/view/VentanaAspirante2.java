@@ -17,20 +17,24 @@ import java.awt.event.MouseMotionAdapter;
 import java.awt.event.MouseWheelEvent;
 import java.awt.geom.RoundRectangle2D;
 import java.net.URL;
+
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.plaf.BorderUIResource;
 
+import com.portalempleate.modelos.Usuario;
+import com.toedter.calendar.JDateChooser;
+
+
 public class VentanaAspirante2 extends JFrame {
 
     private JPanel contentPane;
     private JTextField txthojavida,
-            txtFechanac,
-            txtCorreo,
-            txtContraseña;
-
+            txtCorreo;
+    private JDateChooser txtFechanac;
+    private JPasswordField txtContrasena;
     int xMouse, yMouse;
     private JLabel labelExit;
 
@@ -163,6 +167,22 @@ public class VentanaAspirante2 extends JFrame {
         labelFechanac.setBounds(150, 175, 225, 20);
         labelFechanac.setFont(new Font("Berlin Sans FB", Font.PLAIN, 18));
         panelForm.add(labelFechanac);
+        
+        txtFechanac = new JDateChooser();
+        txtFechanac.setBounds(150, 200, 500, 50);
+        /*
+        txtFechanac.getCalendarButton()
+				.setIcon(new ImageIcon(RegistroHuesped.class.getResource("/imagenes/icon-reservas.png")));
+				*/
+        txtFechanac.getCalendarButton().setBackground(SystemColor.textHighlight);
+		txtFechanac.setDateFormatString("yyyy-MM-dd");
+		txtFechanac.setForeground(Color.darkGray);
+		txtFechanac.setBackground(new Color(219, 233, 245));
+		txtFechanac.setFont(new Font("Berlin Sans FB", Font.PLAIN, 18));
+		txtFechanac.setPreferredSize(new Dimension(10, 50));
+		panelForm.add(txtFechanac);
+        
+        /*
         txtFechanac = new JTextField();
         txtFechanac.setBorder(new EmptyBorder(0, 40, 0, 10));
         txtFechanac.setPreferredSize(new Dimension(10, 50));
@@ -171,7 +191,8 @@ public class VentanaAspirante2 extends JFrame {
         txtFechanac.setForeground(Color.darkGray);
         txtFechanac.setBounds(150, 200, 500, 50);
         panelForm.add(txtFechanac);
-
+		*/
+        
         JLabel labelCorreo = new JLabel("Correo");
         labelCorreo.setForeground(Color.black);
         labelCorreo.setBounds(150, 265, 225, 20);
@@ -191,14 +212,14 @@ public class VentanaAspirante2 extends JFrame {
         labelContraseña.setBounds(150, 353, 225, 20);
         labelContraseña.setFont(new Font("Berlin Sans FB", Font.PLAIN, 18));
         panelForm.add(labelContraseña);
-        txtContraseña = new JTextField();
-        txtContraseña.setBorder(new EmptyBorder(0, 40, 0, 10));
-        txtContraseña.setPreferredSize(new Dimension(10, 50));
-        txtContraseña.setFont(new Font("Berlin Sans FB", Font.PLAIN, 18));
-        txtContraseña.setBackground(new Color(219, 233, 245));
-        txtContraseña.setForeground(Color.darkGray);
-        txtContraseña.setBounds(150, 380, 500, 50);
-        panelForm.add(txtContraseña);
+        txtContrasena = new JPasswordField();
+        txtContrasena.setBorder(new EmptyBorder(0, 40, 0, 10));
+        txtContrasena.setPreferredSize(new Dimension(10, 50));
+        txtContrasena.setFont(new Font("Berlin Sans FB", Font.PLAIN, 18));
+        txtContrasena.setBackground(new Color(219, 233, 245));
+        txtContrasena.setForeground(Color.darkGray);
+        txtContrasena.setBounds(150, 380, 500, 50);
+        panelForm.add(txtContrasena);
 
         JLabel lblBtnNext = new JLabel("Registrarse");
         lblBtnNext.setBounds(0, 0, 200, 50);
@@ -222,7 +243,16 @@ public class VentanaAspirante2 extends JFrame {
 
                     @Override
                     public void mouseClicked(MouseEvent e) {
-                        /* Login(); */
+                    	if (registrarAspiranteV2()) {
+                    		JOptionPane.showMessageDialog(btnNext, "Registro exitoso");
+                    		/*
+    						VentanaAspirante2 frame = new VentanaAspirante2();
+    						frame.setVisible(true);
+    						dispose();
+    						*/
+    					} else {
+    						JOptionPane.showMessageDialog(btnNext, "Complete todos los campos");
+    					}
                     }
 
                 });
@@ -287,5 +317,34 @@ public class VentanaAspirante2 extends JFrame {
         int x = evt.getXOnScreen();
         int y = evt.getYOnScreen();
         this.setLocation(x - xMouse, y - yMouse);
+    }
+    
+    public boolean registrarAspiranteV2() {
+    	/*
+    	if (!txtId.getText().equals("") && !txtPrimernombre.getText().equals("") && !txtSegundonombre.getText().equals("")
+    			&& !txtPrimerapellido.getText().equals("") && !txtSegundoapellido.getText().equals("") && !txtNumcelular.getText().equals("")) {
+    			
+    		if (txtId.getText().matches("\\d+") && txtNumcelular.getText().matches("\\d+")) {
+    			String telefono = txtExtensioncelular.getText() + txtNumcelular.getText();
+    			Usuario usuario = new Usuario(
+    					txtTipoid.getSelectedItem().toString(),
+    					txtId.getText(),
+    					txtPrimernombre.getText(),
+    					txtSegundonombre.getText(),
+    					txtPrimerapellido.getText(),
+    					txtSegundoapellido.getText(),
+    					telefono,
+    					1
+    					);
+    			
+    			this.usuarioController.guardarusuarioAspiranteV1(usuario);
+    			return true;
+    		} else {
+    			JOptionPane.showMessageDialog(this, "Verifique el tipo de dato ingresado");
+    		}
+    	}
+		return false;
+		*/
+    	return true;
     }
 }
