@@ -12,7 +12,7 @@ public class ConnectionFactory {
 	
 	public ConnectionFactory() {
 		var pooledDataSource = new ComboPooledDataSource();
-		pooledDataSource.setJdbcUrl("jdbc:mysql://localhost/curso_login?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC");
+		pooledDataSource.setJdbcUrl("jdbc:mysql://localhost/empleate?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC");
 		//pooledDataSource.setJdbcUrl("jdbc:mysql://localhost/curso_login");
 		pooledDataSource.setUser("root");
 		pooledDataSource.setPassword("root");

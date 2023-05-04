@@ -16,6 +16,8 @@ import java.awt.event.MouseMotionAdapter;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
+import com.portalempleate.controller.UsuarioController;
+
 
 
 public class Login extends JFrame {
@@ -26,6 +28,7 @@ public class Login extends JFrame {
 	int xMouse, yMouse;
 	private JLabel labelExit;
 	
+	private UsuarioController usuarioController;
 	
 	/**
 	 *  Launch the application
@@ -47,6 +50,8 @@ public class Login extends JFrame {
 	 * Create the frame 
 	 */
 	public Login() {
+		this.usuarioController = new UsuarioController();
+		
 		setIconImage(new ImageIcon(getClass().getResource("/com/portalempleate/imgs/iconEmp.png")).getImage());
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		setResizable(false);
@@ -326,9 +331,28 @@ public class Login extends JFrame {
 }
 
 	
-	private void Login() {
-		// TODO Auto-generated method stub
+
+	private void Login() {		
+		//System.out.println(txtUsuario.getText().equals("Ingrese su usuario"));
+		//System.out.println(txtContrasena.getPassword().equals("*******************"));
+		/*
+		if (txtUsuario.getText() == "Ingrese su usuario" || txtContrasena.getText() == "*******************") {
+			
+			if(usuarioController.login(txtUsuario.getText(), txtContrasena.getText())) {
+				
+				JOptionPane.showMessageDialog(this, "Ingresaste :)");
+			}
+			
+		} else {
+			JOptionPane.showMessageDialog(this, "Por favor, rellenos los campos");
+		}
+		*/
 		
+		if(usuarioController.login(txtUsuario.getText(), txtContrasena.getPassword())) {
+			JOptionPane.showMessageDialog(this, "Ingresaste :)");
+		} else {
+			JOptionPane.showMessageDialog(this, "Campos incorectos");
+		}
 	}
 	
 	protected void resset() {

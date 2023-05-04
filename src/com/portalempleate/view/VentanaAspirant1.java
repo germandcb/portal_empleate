@@ -10,17 +10,21 @@ import java.awt.SystemColor;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
+import java.text.Format;
+
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.plaf.BorderUIResource;
 
+import com.portalempleate.controller.UsuarioController;
+import com.portalempleate.modelos.Usuario;
+
 public class VentanaAspirant1 extends JFrame {
 
     private JPanel contentPane;
     private JTextField 
-			txtTipoid, 
 			txtId, 
 			txtPrimernombre, 
 			txtSegundonombre, 
@@ -29,7 +33,10 @@ public class VentanaAspirant1 extends JFrame {
 			txtExtensioncelular, 
 			txtNumcelular;
     int xMouse, yMouse;
+    private JComboBox<Format> txtTipoid;
     private JLabel labelExit;
+    
+    private UsuarioController usuarioController;
 
     public static void main(String[] args) {
         EventQueue.invokeLater(new Runnable() {
@@ -46,6 +53,8 @@ public class VentanaAspirant1 extends JFrame {
     }
 
     public VentanaAspirant1() {
+    	this.usuarioController = new UsuarioController();
+    	
     	setIconImage(new ImageIcon(getClass().getResource("/com/portalempleate/imgs/iconEmp.png")).getImage());
         setResizable(false);
         setUndecorated(true);
@@ -157,6 +166,15 @@ public class VentanaAspirant1 extends JFrame {
 		labelTipoid.setBounds(150, 85, 400, 20);
 		labelTipoid.setFont(new Font("Berlin Sans FB", Font.PLAIN, 18));
 		panelForm.add(labelTipoid);//Fin del titulo
+		
+		txtTipoid = new JComboBox();
+		txtTipoid.setBounds(150, 110, 65, 50);
+		txtTipoid.setBackground(new Color(219, 233, 245));
+		txtTipoid.setFont(new Font("Berlin Sans FB", Font.PLAIN, 18));
+		txtTipoid.setModel(new DefaultComboBoxModel(new String[] { "CC", "CE" }));
+		panelForm.add(txtTipoid);
+		
+		/*
 		txtTipoid = new JTextField();//Campo de texto
 		txtTipoid.setBorder(new EmptyBorder(0,10,0,10));
 		txtTipoid.setPreferredSize(new Dimension(10, 50));
@@ -166,6 +184,7 @@ public class VentanaAspirant1 extends JFrame {
 		txtTipoid.setBounds(150, 110, 65, 50);
 		panelForm.add(txtTipoid);//Fin del campo de texto
 		//Fin del tipo de identificacion
+		*/
 		
 		//CAMPO PARA EL NUMERO DE IDENTIFICACION
 		JLabel labelId = new JLabel("ID");//Titulo
@@ -298,9 +317,16 @@ public class VentanaAspirant1 extends JFrame {
 				}
 				@Override
 				public void mouseClicked(MouseEvent e) {
-					VentanaAspirante2 frame = new VentanaAspirante2();
-					frame.setVisible(true);
-					dispose();
+					
+					if (registrarAspiranteV1()) {
+						VentanaAspirante2 frame = new VentanaAspirante2();
+						frame.setVisible(true);
+						dispose();
+					} else {
+						JOptionPane.showMessageDialog(btnNext, "Complete todos los campos");
+					}
+					
+					
 				}
 		
 			}
@@ -325,6 +351,34 @@ public class VentanaAspirant1 extends JFrame {
         int x = evt.getXOnScreen();
         int y = evt.getYOnScreen();
         this.setLocation(x - xMouse, y - yMouse);
+    }
+    
+
+    
+    public boolean registrarAspiranteV1() {
+    	if (!txtId.getText().equals("") && !txtPrimernombre.getText().equals("") && !txtSegundonombre.getText().equals("")
+    			&& !txtPrimerapellido.getText().equals("") && !txtSegundoapellido.getText().equals("") && !txtNumcelular.getText().equals("")) {
+    			
+    		if (txtId.getText().matches("\\d+") && txtNumcelular.getText().matches("\\d+")) {
+    			String telefono = txtExtensioncelular.getText() + txtNumcelular.getText();
+    			Usuario usuario = new Usuario(
+    					txtTipoid.getSelectedItem().toString(),
+    					txtId.getText(),
+    					txtPrimernombre.getText(),
+    					txtSegundonombre.getText(),
+    					txtPrimerapellido.getText(),
+    					txtSegundoapellido.getText(),
+    					telefono,
+    					1
+    					);
+    			
+    			this.usuarioController.guardarusuarioAspiranteV1(usuario);
+    			return true;
+    		} else {
+    			JOptionPane.showMessageDialog(this, "Verifique el tipo de dato ingresado");
+    		}
+    	}
+		return false;
     }
 
 }
