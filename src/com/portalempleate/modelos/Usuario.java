@@ -30,11 +30,10 @@ public class Usuario {
 	public Usuario() {
 		super();
 	}
-	
 
-	
 	public Usuario(String tipoId, String id, String primerNombre, String segundoNombre, String primerApellido,
-			String segundoApellido, String telefono, Integer rolId) {
+			String segundoApellido, String telefono, String correo, String contrasena, String hojaDeVida,
+			Date fechaNacimiento, int rolId) {
 		super();
 		this.tipoId = tipoId;
 		this.id = id;
@@ -43,6 +42,10 @@ public class Usuario {
 		this.primerApellido = primerApellido;
 		this.segundoApellido = segundoApellido;
 		this.telefono = telefono;
+		this.correo = correo;
+		this.contrasena = contrasena;
+		this.hojaDeVida = hojaDeVida;
+		this.fechaNacimiento = fechaNacimiento;
 		this.rolId = rolId;
 	}
 
@@ -74,6 +77,10 @@ public class Usuario {
 		this.estado = estado;
 		this.nitEmpresa = nitEmpresa;
 	}
+
+
+
+	
 
 
 

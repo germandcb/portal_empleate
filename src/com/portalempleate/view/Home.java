@@ -209,8 +209,8 @@ public class Home extends JFrame{
 			}
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				VentanaAspirant1 frame = new VentanaAspirant1();
-				frame.setVisible(true);
+				dispose();
+				RegistrarAspirante registrarAspirante = new RegistrarAspirante();
 				dispose();
 			}
 		
@@ -242,7 +242,7 @@ public class Home extends JFrame{
 			}
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				Ventana1SigninEmpleador frame = new Ventana1SigninEmpleador();
+				VentanaAspirant1 frame = new VentanaAspirant1();
 				frame.setVisible(true);
 				dispose();
 			}

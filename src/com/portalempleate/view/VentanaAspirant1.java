@@ -12,6 +12,8 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 import java.text.Format;
 
+import javax.imageio.spi.RegisterableService;
+import javax.imageio.spi.ServiceRegistry;
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
@@ -36,7 +38,9 @@ public class VentanaAspirant1 extends JFrame {
     private JComboBox<Format> txtTipoid;
     private JLabel labelExit;
     
-    private UsuarioController usuarioController;
+    public JPanel btnNext;
+    
+    //private UsuarioController usuarioController;
 
     public static void main(String[] args) {
         EventQueue.invokeLater(new Runnable() {
@@ -53,7 +57,7 @@ public class VentanaAspirant1 extends JFrame {
     }
 
     public VentanaAspirant1() {
-    	this.usuarioController = new UsuarioController();
+    	//this.usuarioController = new UsuarioController();
     	
     	setIconImage(new ImageIcon(getClass().getResource("/com/portalempleate/imgs/iconEmp.png")).getImage());
         setResizable(false);
@@ -85,7 +89,6 @@ public class VentanaAspirant1 extends JFrame {
             @Override
             public void mouseDragged(MouseEvent e) {
                 headerMouseDragged(e);
-
             }
         });
 
@@ -302,7 +305,7 @@ public class VentanaAspirant1 extends JFrame {
 		lblBtnNext.setFont(new Font("Berlin Sans FB Demi", Font.PLAIN, 22));
 		
 		
-		JPanel btnNext = new JPanel();
+		btnNext = new JPanel();
 		btnNext.setBackground(new Color(50,89,119));
 		btnNext.addMouseListener(
 			new MouseAdapter() {
@@ -315,6 +318,7 @@ public class VentanaAspirant1 extends JFrame {
 				public void mouseExited(MouseEvent e) {
 					btnNext.setBackground(new Color(50,89,119));
 				}
+				/*
 				@Override
 				public void mouseClicked(MouseEvent e) {
 					
@@ -327,7 +331,7 @@ public class VentanaAspirant1 extends JFrame {
 					}
 					
 					
-				}
+				} */
 		
 			}
 		);
@@ -360,6 +364,7 @@ public class VentanaAspirant1 extends JFrame {
     			&& !txtPrimerapellido.getText().equals("") && !txtSegundoapellido.getText().equals("") && !txtNumcelular.getText().equals("")) {
     			
     		if (txtId.getText().matches("\\d+") && txtNumcelular.getText().matches("\\d+")) {
+    			/*
     			String telefono = txtExtensioncelular.getText() + txtNumcelular.getText();
     			Usuario usuario = new Usuario(
     					txtTipoid.getSelectedItem().toString(),
@@ -372,7 +377,9 @@ public class VentanaAspirant1 extends JFrame {
     					1
     					);
     			
+    			this.usuarioController.asignaUsuario(usuario);
     			this.usuarioController.guardarusuarioAspiranteV1(usuario);
+    			*/
     			return true;
     		} else {
     			JOptionPane.showMessageDialog(this, "Verifique el tipo de dato ingresado");
@@ -380,5 +387,69 @@ public class VentanaAspirant1 extends JFrame {
     	}
 		return false;
     }
+
+	public JTextField getTxtId() {
+		return txtId;
+	}
+
+	public void setTxtId(JTextField txtId) {
+		this.txtId = txtId;
+	}
+
+	public JTextField getTxtPrimernombre() {
+		return txtPrimernombre;
+	}
+
+	public void setTxtPrimernombre(JTextField txtPrimernombre) {
+		this.txtPrimernombre = txtPrimernombre;
+	}
+
+	public JTextField getTxtSegundonombre() {
+		return txtSegundonombre;
+	}
+
+	public void setTxtSegundonombre(JTextField txtSegundonombre) {
+		this.txtSegundonombre = txtSegundonombre;
+	}
+
+	public JTextField getTxtPrimerapellido() {
+		return txtPrimerapellido;
+	}
+
+	public void setTxtPrimerapellido(JTextField txtPrimerapellido) {
+		this.txtPrimerapellido = txtPrimerapellido;
+	}
+
+	public JTextField getTxtSegundoapellido() {
+		return txtSegundoapellido;
+	}
+
+	public void setTxtSegundoapellido(JTextField txtSegundoapellido) {
+		this.txtSegundoapellido = txtSegundoapellido;
+	}
+
+	public JTextField getTxtExtensioncelular() {
+		return txtExtensioncelular;
+	}
+
+	public void setTxtExtensioncelular(JTextField txtExtensioncelular) {
+		this.txtExtensioncelular = txtExtensioncelular;
+	}
+
+	public JTextField getTxtNumcelular() {
+		return txtNumcelular;
+	}
+
+	public void setTxtNumcelular(JTextField txtNumcelular) {
+		this.txtNumcelular = txtNumcelular;
+	}
+
+	public JComboBox<Format> getTxtTipoid() {
+		return txtTipoid;
+	}
+
+	public void setTxtTipoid(JComboBox<Format> txtTipoid) {
+		this.txtTipoid = txtTipoid;
+	} 
 
 }

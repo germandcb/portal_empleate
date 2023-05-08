@@ -17,6 +17,8 @@ import java.awt.event.MouseMotionAdapter;
 import java.awt.event.MouseWheelEvent;
 import java.awt.geom.RoundRectangle2D;
 import java.net.URL;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -24,6 +26,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.plaf.BorderUIResource;
 
+import com.portalempleate.controller.UsuarioController;
 import com.portalempleate.modelos.Usuario;
 import com.toedter.calendar.JDateChooser;
 
@@ -31,12 +34,19 @@ import com.toedter.calendar.JDateChooser;
 public class VentanaAspirante2 extends JFrame {
 
     private JPanel contentPane;
+    private JFileChooser bpdfHojaVida;
     private JTextField txthojavida,
             txtCorreo;
     private JDateChooser txtFechanac;
     private JPasswordField txtContrasena;
     int xMouse, yMouse;
     private JLabel labelExit;
+    //private String idUsuario;
+    
+    public JPanel btnGuardarAspirante;
+    
+    
+    //private UsuarioController usuarioController;
 
     public static void main(String[] args) {
         EventQueue.invokeLater(new Runnable() {
@@ -53,6 +63,7 @@ public class VentanaAspirante2 extends JFrame {
     }
 
     public VentanaAspirante2() {
+    	//this.usuarioController = new UsuarioController();
     	setIconImage(new ImageIcon(getClass().getResource("/com/portalempleate/imgs/iconEmp.png")).getImage());
         setResizable(false);
         setUndecorated(true);
@@ -121,7 +132,7 @@ public class VentanaAspirante2 extends JFrame {
         labelhojavida.setFont(new Font("Berlin Sans FB", Font.PLAIN, 18));
         panelForm.add(labelhojavida);
         txthojavida = new JTextField();
-        txthojavida.setBorder(new EmptyBorder(0, 40, 0, 10));
+        txthojavida.setBorder(new EmptyBorder(0, 10, 0, 10));
         txthojavida.setPreferredSize(new Dimension(10, 50));
         txthojavida.setFont(new Font("Berlin Sans FB", Font.PLAIN, 18));
         txthojavida.setBackground(new Color(219, 233, 245));
@@ -151,7 +162,9 @@ public class VentanaAspirante2 extends JFrame {
 
                     @Override
                     public void mouseClicked(MouseEvent e) {
-                        /* Login(); */
+                    	seleccionarPDF();
+                    	String rutaArchivo = bpdfHojaVida.getSelectedFile().getPath();
+                    	txthojavida.setText(rutaArchivo);
                     }
 
                 });
@@ -180,6 +193,7 @@ public class VentanaAspirante2 extends JFrame {
 		txtFechanac.setBackground(new Color(219, 233, 245));
 		txtFechanac.setFont(new Font("Berlin Sans FB", Font.PLAIN, 18));
 		txtFechanac.setPreferredSize(new Dimension(10, 50));
+		txtFechanac.setBorder(new EmptyBorder(0, 0, 0, 0));
 		panelForm.add(txtFechanac);
         
         /*
@@ -199,7 +213,7 @@ public class VentanaAspirante2 extends JFrame {
         labelCorreo.setFont(new Font("Berlin Sans FB", Font.PLAIN, 18));
         panelForm.add(labelCorreo);
         txtCorreo = new JTextField();
-        txtCorreo.setBorder(new EmptyBorder(0, 40, 0, 10));
+        txtCorreo.setBorder(new EmptyBorder(0, 10, 0, 10));
         txtCorreo.setPreferredSize(new Dimension(10, 50));
         txtCorreo.setFont(new Font("Berlin Sans FB", Font.PLAIN, 18));
         txtCorreo.setBackground(new Color(219, 233, 245));
@@ -213,7 +227,7 @@ public class VentanaAspirante2 extends JFrame {
         labelContraseña.setFont(new Font("Berlin Sans FB", Font.PLAIN, 18));
         panelForm.add(labelContraseña);
         txtContrasena = new JPasswordField();
-        txtContrasena.setBorder(new EmptyBorder(0, 40, 0, 10));
+        txtContrasena.setBorder(new EmptyBorder(0, 10, 0, 10));
         txtContrasena.setPreferredSize(new Dimension(10, 50));
         txtContrasena.setFont(new Font("Berlin Sans FB", Font.PLAIN, 18));
         txtContrasena.setBackground(new Color(219, 233, 245));
@@ -227,41 +241,39 @@ public class VentanaAspirante2 extends JFrame {
         lblBtnNext.setHorizontalAlignment(SwingConstants.CENTER);
         lblBtnNext.setFont(new Font("Berlin Sans FB Demi", Font.PLAIN, 22));
 
-        JPanel btnNext = new JPanel();
-        btnNext.setBackground(new Color(50, 89, 119));
-        btnNext.addMouseListener(
+        btnGuardarAspirante = new JPanel();
+        btnGuardarAspirante.setBackground(new Color(50, 89, 119));
+        btnGuardarAspirante.addMouseListener(
                 new MouseAdapter() {
                     @Override
                     public void mouseEntered(MouseEvent e) {
-                        btnNext.setBackground(new Color(68, 116, 148));
+                        btnGuardarAspirante.setBackground(new Color(68, 116, 148));
                     }
 
                     @Override
                     public void mouseExited(MouseEvent e) {
-                        btnNext.setBackground(new Color(50, 89, 119));
+                        btnGuardarAspirante.setBackground(new Color(50, 89, 119));
                     }
-
+                    /*
                     @Override
                     public void mouseClicked(MouseEvent e) {
                     	if (registrarAspiranteV2()) {
-                    		JOptionPane.showMessageDialog(btnNext, "Registro exitoso");
-                    		/*
-    						VentanaAspirante2 frame = new VentanaAspirante2();
-    						frame.setVisible(true);
-    						dispose();
-    						*/
+                    		JOptionPane.showMessageDialog(btnGuardarAspirante, "Registro exitoso");
+                    		
+                    		
+                    		
     					} else {
-    						JOptionPane.showMessageDialog(btnNext, "Complete todos los campos");
+    						JOptionPane.showMessageDialog(btnGuardarAspirante, "Ocurrio un error");
     					}
                     }
-
+					*/
                 });
-        btnNext.setBounds(300, 450, 200, 50);
-        btnNext.setLayout(null);
-        btnNext.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        btnGuardarAspirante.setBounds(300, 450, 200, 50);
+        btnGuardarAspirante.setLayout(null);
+        btnGuardarAspirante.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
-        btnNext.add(lblBtnNext);
-        panelForm.add(btnNext);
+        btnGuardarAspirante.add(lblBtnNext);
+        panelForm.add(btnGuardarAspirante);
 
         return panelForm;
     }
@@ -319,32 +331,118 @@ public class VentanaAspirante2 extends JFrame {
         this.setLocation(x - xMouse, y - yMouse);
     }
     
+    private void seleccionarPDF() {
+        bpdfHojaVida = new JFileChooser();
+        int resultado = bpdfHojaVida.showOpenDialog(this);
+
+        if (resultado == JFileChooser.APPROVE_OPTION) {
+            // Se ha seleccionado un archivo PDF
+            String rutaArchivo = bpdfHojaVida.getSelectedFile().getPath();
+            // Aquí puedes guardar la ruta del archivo o realizar otras operaciones
+            System.out.println("Archivo seleccionado: " + rutaArchivo);
+        }
+    }
+    
     public boolean registrarAspiranteV2() {
-    	/*
-    	if (!txtId.getText().equals("") && !txtPrimernombre.getText().equals("") && !txtSegundonombre.getText().equals("")
-    			&& !txtPrimerapellido.getText().equals("") && !txtSegundoapellido.getText().equals("") && !txtNumcelular.getText().equals("")) {
-    			
-    		if (txtId.getText().matches("\\d+") && txtNumcelular.getText().matches("\\d+")) {
-    			String telefono = txtExtensioncelular.getText() + txtNumcelular.getText();
+    	
+    	if(!txthojavida.getText().equals("") && !txtCorreo.getText().equals("") 
+    			&& txtFechanac.getDate() != null && !txtContrasena.getText().equals("")) {
+    		
+    		if (esCorreoElectronicoValido(txtCorreo.getText())) {
+    			/*
+    			String password = String.valueOf(txtContrasena.getPassword());
+    			String telefono = ventanaAspirant1.getTxtExtensioncelular().getText() + 
+    					ventanaAspirant1.getTxtNumcelular().getText();
     			Usuario usuario = new Usuario(
-    					txtTipoid.getSelectedItem().toString(),
-    					txtId.getText(),
-    					txtPrimernombre.getText(),
-    					txtSegundonombre.getText(),
-    					txtPrimerapellido.getText(),
-    					txtSegundoapellido.getText(),
+    					ventanaAspirant1.getTxtTipoid().getSelectedItem().toString(),
+    					ventanaAspirant1.getTxtId().getText(),
+    					ventanaAspirant1.getTxtPrimernombre().getText(),
+    					ventanaAspirant1.getTxtSegundonombre() .getText(),
+    					ventanaAspirant1.getTxtPrimerapellido().getText(),
+    					ventanaAspirant1.getTxtSegundoapellido().getText(),
     					telefono,
     					1
     					);
     			
+    			this.usuarioController.asignaUsuario(usuario);
     			this.usuarioController.guardarusuarioAspiranteV1(usuario);
+    			
+    			
+    			   		
+    			this.usuarioController.guardarusuarioAspiranteV2(
+    					//idUsuario,
+    					txtCorreo.getText(),
+    					password,
+    					txthojavida.getText(),
+    					txtFechanac.getDate()
+    					);
+    			*/
     			return true;
     		} else {
-    			JOptionPane.showMessageDialog(this, "Verifique el tipo de dato ingresado");
+    			JOptionPane.showMessageDialog(this, "Debe colocar un correo valido");
+    			return false;
     		}
+    		    		   		
+    	} else {
+    		JOptionPane.showMessageDialog(this, "Complete todos los campos");
+    		return false;
     	}
-		return false;
-		*/
-    	return true;
+    	
     }
+    
+    public boolean esCorreoElectronicoValido(String correo) {
+        // La expresión regular para validar correos electrónicos
+        String regex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$";
+        
+        // Compilar la expresión regular en un patrón
+        Pattern pattern = Pattern.compile(regex);
+        
+        // Crear un objeto Matcher para la cadena de texto
+        Matcher matcher = pattern.matcher(correo);
+        
+        // Devolver true si la cadena coincide con la expresión regular
+        return matcher.matches();
+    }
+
+	public JFileChooser getBpdfHojaVida() {
+		return bpdfHojaVida;
+	}
+
+	public void setBpdfHojaVida(JFileChooser bpdfHojaVida) {
+		this.bpdfHojaVida = bpdfHojaVida;
+	}
+
+	public JTextField getTxthojavida() {
+		return txthojavida;
+	}
+
+	public void setTxthojavida(JTextField txthojavida) {
+		this.txthojavida = txthojavida;
+	}
+
+	public JTextField getTxtCorreo() {
+		return txtCorreo;
+	}
+
+	public void setTxtCorreo(JTextField txtCorreo) {
+		this.txtCorreo = txtCorreo;
+	}
+
+	public JDateChooser getTxtFechanac() {
+		return txtFechanac;
+	}
+
+	public void setTxtFechanac(JDateChooser txtFechanac) {
+		this.txtFechanac = txtFechanac;
+	}
+
+	public JPasswordField getTxtContrasena() {
+		return txtContrasena;
+	}
+
+	public void setTxtContrasena(JPasswordField txtContrasena) {
+		this.txtContrasena = txtContrasena;
+	}
+    
+    
 }

@@ -50,8 +50,6 @@ public class Login extends JFrame {
 	 * Create the frame 
 	 */
 	public Login() {
-		this.usuarioController = new UsuarioController();
-		
 		setIconImage(new ImageIcon(getClass().getResource("/com/portalempleate/imgs/iconEmp.png")).getImage());
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		setResizable(false);
@@ -347,9 +345,21 @@ public class Login extends JFrame {
 			JOptionPane.showMessageDialog(this, "Por favor, rellenos los campos");
 		}
 		*/
-		
+		this.usuarioController = new UsuarioController();
 		if(usuarioController.login(txtUsuario.getText(), txtContrasena.getPassword())) {
-			JOptionPane.showMessageDialog(this, "Ingresaste :)");
+			
+			if (usuarioController.tipoDeUsuairo(txtUsuario.getText()) == 1) {
+				LogicaAspirante logicaAspiratne = new LogicaAspirante(this);
+				dispose();
+			} 
+			else if (usuarioController.tipoDeUsuairo(txtUsuario.getText()) == 2) {
+				MenuEmpleador frame = new MenuEmpleador();
+				frame.setVisible(true);
+				dispose();
+			} else {
+				JOptionPane.showMessageDialog(this, "Ocurrio un Error inesperado");
+			}			
+			
 		} else {
 			JOptionPane.showMessageDialog(this, "Campos incorectos");
 		}
@@ -358,6 +368,14 @@ public class Login extends JFrame {
 	protected void resset() {
 		// TODO Auto-generated method stub
 		
+	}
+
+	public JTextField getTxtUsuario() {
+		return txtUsuario;
+	}
+
+	public void setTxtUsuario(JTextField txtUsuario) {
+		this.txtUsuario = txtUsuario;
 	}
 	
 	
