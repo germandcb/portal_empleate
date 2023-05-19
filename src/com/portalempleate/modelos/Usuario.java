@@ -31,6 +31,29 @@ public class Usuario {
 		super();
 	}
 
+	public Usuario(String tipoId, String id, String primerNombre, String segundoNombre,
+            String primerApellido, String segundoApellido, String telefono, String telefonoFijo, Date fechaNacimiento, String correo,
+            String contrasena, String nombreComercial, String nitEmpresa, String razonSocial, String tipoServicio,
+            Integer rolId) {
+        super();
+        this.tipoId = tipoId;
+        this.id = id;
+        this.primerNombre = primerNombre;
+        this.segundoNombre = segundoNombre;
+        this.primerApellido = primerApellido;
+        this.segundoApellido = segundoApellido;
+        this.telefono = telefono;
+        this.telefonoFijo = telefonoFijo;
+        this.fechaNacimiento = fechaNacimiento;
+        this.correo = correo;
+        this.contrasena = contrasena;
+        this.nombreComercial = nombreComercial;
+        this.razonSocial = razonSocial;
+        this.tipoServicio = tipoServicio;
+        this.nitEmpresa = nitEmpresa;
+        this.rolId = rolId;
+    }
+	
 	public Usuario(String tipoId, String id, String primerNombre, String segundoNombre, String primerApellido,
 			String segundoApellido, String telefono, String correo, String contrasena, String hojaDeVida,
 			Date fechaNacimiento, int rolId) {
@@ -79,10 +102,27 @@ public class Usuario {
 	}
 
 
-
-	
-
-
+	public Usuario(String tipoId, String id, String primerNombre, String segundoNombre, String primerApellido, String segundoApellido,
+			String telefono, String telefonoFijo, String correo, String contrasena, String nombreComercial, String nitEmpresa, String razonSocial,
+			String tipoServicio, Date fechaNacimiento, int rolId) {
+		super();
+        this.tipoId = tipoId;
+        this.id = id;
+        this.primerNombre = primerNombre;
+        this.segundoNombre = segundoNombre;
+        this.primerApellido = primerApellido;
+        this.segundoApellido = segundoApellido;
+        this.telefono = telefono;
+        this.telefonoFijo = telefonoFijo;
+        this.fechaNacimiento = fechaNacimiento;
+        this.correo = correo;
+        this.contrasena = contrasena;
+        this.nombreComercial = nombreComercial;
+        this.razonSocial = razonSocial;
+        this.tipoServicio = tipoServicio;
+        this.nitEmpresa = nitEmpresa;
+        this.rolId = rolId;
+	}
 
 	public String getTipoId() {
 		return tipoId;

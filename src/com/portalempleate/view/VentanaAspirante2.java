@@ -43,6 +43,9 @@ public class VentanaAspirante2 extends JFrame {
     private JLabel labelExit;
     //private String idUsuario;
     
+    public JLabel labelAtras;
+    public JPanel btnAtras;
+    
     public JPanel btnGuardarAspirante;
     
     
@@ -317,6 +320,40 @@ public class VentanaAspirante2 extends JFrame {
         labelExit.setHorizontalAlignment(SwingConstants.CENTER);
         labelExit.setVerticalAlignment(SwingConstants.CENTER);
 
+        btnAtras = new JPanel();
+		btnAtras.addMouseListener(new MouseAdapter() {
+			/*
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				Home frame = new Home();
+				frame.setVisible(true);
+				dispose();
+			}
+			*/
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				btnAtras.setBackground(new Color(68, 116, 148));
+				labelAtras.setForeground(Color.white);
+			}
+
+			@Override
+			public void mouseExited(MouseEvent e) {
+				btnAtras.setBackground(Color.white);
+				labelAtras.setForeground(Color.black);
+			}
+		});
+		btnAtras.setLayout(null);
+		btnAtras.setBackground(Color.WHITE);
+		btnAtras.setBounds(0, 0, 55, 45);
+		panel_1.add(btnAtras);
+
+		labelAtras = new JLabel("<-");
+		labelAtras.setFont(new Font("Berlin Sans FB", Font.PLAIN, 30));
+		labelAtras.setBounds(0, 0, 55, 45);
+		btnAtras.add(labelAtras);
+		labelAtras.setHorizontalAlignment(SwingConstants.CENTER);
+		labelAtras.setVerticalAlignment(SwingConstants.CENTER);
+        
         return panel_1;
     }
 

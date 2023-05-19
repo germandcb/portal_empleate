@@ -242,8 +242,8 @@ public class Home extends JFrame{
 			}
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				VentanaAspirant1 frame = new VentanaAspirant1();
-				frame.setVisible(true);
+				dispose();
+				RegistrarEmpelador registarEmpelador = new RegistrarEmpelador();
 				dispose();
 			}
 		

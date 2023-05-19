@@ -14,6 +14,7 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
@@ -22,15 +23,19 @@ import javax.swing.border.EmptyBorder;
 public class MenuEmpleador extends JFrame{
 	 private JPanel contentPane;
 	    private JTextField txtTipoid;
-
+	    
+	    public JPanel btnPublicacion;
+	    public JPanel btnCrearOferta;
+	    
 	    int xMouse, yMouse;
 	    private JLabel labelExit;
-
+	    public JLabel bienvenidaUsuario;
+	    
 	    public static void main(String[] args) {
 	        EventQueue.invokeLater(new Runnable() {
 	            public void run() {
 	                try {
-	                    JFrame frame = new MenuAspirante();
+	                    JFrame frame = new MenuEmpleador();
 	                    frame.setVisible(true);
 	                } catch (Exception e) {
 	                    e.printStackTrace();
@@ -169,11 +174,7 @@ public class MenuEmpleador extends JFrame{
 				}
 				@Override
 				public void mouseClicked(MouseEvent e) {
-					/*
-					Login frame = new Login();
-					frame.setVisible(true);
-					dispose();
-					*/
+					JOptionPane.showMessageDialog(btnPerfil, "Esta funcionalidad estara disponible proximamente");
 				}
 			
 			});
@@ -190,7 +191,7 @@ public class MenuEmpleador extends JFrame{
 	        jlbPublicacion.setHorizontalAlignment(SwingConstants.CENTER);
 	        jlbPublicacion.setFont(new Font("Berlin Sans FB", Font.PLAIN, 20));
 	        
-	        JPanel btnPublicacion = new JPanel();
+	        btnPublicacion = new JPanel();
 	        btnPublicacion.setBackground(new Color(25,44,60));
 	        btnPublicacion.addMouseListener(new MouseAdapter() {
 				@Override
@@ -225,7 +226,7 @@ public class MenuEmpleador extends JFrame{
 	        jlbCrearOferta.setHorizontalAlignment(SwingConstants.CENTER);
 	        jlbCrearOferta.setFont(new Font("Berlin Sans FB", Font.PLAIN, 20));
 	        
-	        JPanel btnCrearOferta = new JPanel();
+	        btnCrearOferta = new JPanel();
 	        btnCrearOferta.setBackground(new Color(25,44,60));
 	        btnCrearOferta.addMouseListener(new MouseAdapter() {
 				@Override
@@ -263,7 +264,7 @@ public class MenuEmpleador extends JFrame{
 	        panelRigth.setBorder(null);
 	        panelRigth.setLayout(null);
 	        
-	        JLabel bienvenidaUsuario = new JLabel("¡ Bienvenido [ User ] !");
+	        bienvenidaUsuario = new JLabel();
 	        bienvenidaUsuario.setBackground(new Color(108, 148, 172));
 	        bienvenidaUsuario.setForeground(SystemColor.white);
 	        bienvenidaUsuario.setBounds(0, 0, 536, 100);

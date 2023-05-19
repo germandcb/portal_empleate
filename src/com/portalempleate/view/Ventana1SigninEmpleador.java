@@ -17,6 +17,8 @@ import java.awt.event.MouseMotionAdapter;
 import java.awt.event.MouseWheelEvent;
 import java.awt.geom.RoundRectangle2D;
 import java.net.URL;
+import java.text.Format;
+
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
@@ -28,7 +30,6 @@ public class Ventana1SigninEmpleador extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField 
-		txtTipoid, 
 		txtId, 
 		txtPrimernombre, 
 		txtSegundonombre, 
@@ -36,9 +37,14 @@ public class Ventana1SigninEmpleador extends JFrame {
 		txtSegundoapellido, 
 		txtExtensioncelular, 
 		txtNumcelular;
+	private JComboBox<Format> txtTipoid;
 	int xMouse, yMouse;
 	private JLabel labelExit;
 	
+	public JLabel labelAtras;
+	public JPanel btnAtras;
+	
+	public JPanel btnNext;
 	
 	/**
 	 *  Launch the application
@@ -148,6 +154,39 @@ public class Ventana1SigninEmpleador extends JFrame {
 		labelExit.setHorizontalAlignment(SwingConstants.CENTER);
 		labelExit.setVerticalAlignment(SwingConstants.CENTER);
 		
+		btnAtras = new JPanel();
+		btnAtras.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				Home frame = new Home();
+				frame.setVisible(true);
+				dispose();
+			}
+
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				btnAtras.setBackground(new Color(68, 116, 148));
+				labelAtras.setForeground(Color.white);
+			}
+
+			@Override
+			public void mouseExited(MouseEvent e) {
+				btnAtras.setBackground(Color.white);
+				labelAtras.setForeground(Color.black);
+			}
+		});
+		btnAtras.setLayout(null);
+		btnAtras.setBackground(Color.WHITE);
+		btnAtras.setBounds(0, 0, 55, 45);
+		panel_1.add(btnAtras);
+
+		labelAtras = new JLabel("<-");
+		labelAtras.setFont(new Font("Berlin Sans FB", Font.PLAIN, 30));
+		labelAtras.setBounds(0, 0, 55, 45);
+		btnAtras.add(labelAtras);
+		labelAtras.setHorizontalAlignment(SwingConstants.CENTER);
+		labelAtras.setVerticalAlignment(SwingConstants.CENTER);
+		
 		return panel_1;
 	}
 	
@@ -172,15 +211,12 @@ public class Ventana1SigninEmpleador extends JFrame {
 		labelTipoid.setBounds(150, 55, 400, 20);
 		labelTipoid.setFont(new Font("Berlin Sans FB", Font.PLAIN, 18));
 		panelForm.add(labelTipoid);//Fin del titulo
-		txtTipoid = new JTextField();//Campo de texto
-		txtTipoid.setBorder(new EmptyBorder(0,10,0,10));
-		txtTipoid.setPreferredSize(new Dimension(10, 50));
-		txtTipoid.setFont(new Font("Berlin Sans FB", Font.PLAIN, 18));
-		txtTipoid.setBackground(new Color(219, 233, 245));
-		txtTipoid.setForeground(Color.darkGray);
+		txtTipoid = new JComboBox();
 		txtTipoid.setBounds(150, 80, 65, 50);
-		panelForm.add(txtTipoid);//Fin del campo de texto
-		//Fin del tipo de identificacion
+		txtTipoid.setBackground(new Color(219, 233, 245));
+		txtTipoid.setFont(new Font("Berlin Sans FB", Font.PLAIN, 18));
+		txtTipoid.setModel(new DefaultComboBoxModel(new String[] { "CC", "CE" }));
+				panelForm.add(txtTipoid);
 		
 		//CAMPO PARA EL NUMERO DE IDENTIFICACION
 		JLabel labelId = new JLabel("ID");//Titulo
@@ -298,7 +334,7 @@ public class Ventana1SigninEmpleador extends JFrame {
 		lblBtnNext.setFont(new Font("Berlin Sans FB Demi", Font.PLAIN, 22));
 		
 		
-		JPanel btnNext = new JPanel();
+		btnNext = new JPanel();
 		btnNext.setBackground(new Color(50,89,119));
 		btnNext.addMouseListener(
 			new MouseAdapter() {
@@ -311,12 +347,14 @@ public class Ventana1SigninEmpleador extends JFrame {
 				public void mouseExited(MouseEvent e) {
 					btnNext.setBackground(new Color(50,89,119));
 				}
+				/*
 				@Override
 				public void mouseClicked(MouseEvent e) {
 					Ventana2SigninEmpleador frame = new Ventana2SigninEmpleador();
 					frame.setVisible(true);
 					dispose();
 				}
+				*/
 		
 			}
 		);
@@ -350,7 +388,85 @@ public class Ventana1SigninEmpleador extends JFrame {
         int x = evt.getXOnScreen();
         int y = evt.getYOnScreen();
         this.setLocation(x - xMouse, y - yMouse);
-}
+    }
+    
+	public boolean validarCampos() {
+		if (!txtId.getText().equals("") && !txtPrimernombre.getText().equals("") && !txtSegundonombre.getText().equals("")
+    			&& !txtPrimerapellido.getText().equals("") && !txtSegundoapellido.getText().equals("") && !txtNumcelular.getText().equals("")) {
+    			
+    		if (txtId.getText().matches("\\d+") && txtNumcelular.getText().matches("\\d+")) {
+    			return true;
+    		} else {
+    			JOptionPane.showMessageDialog(this, "Verifique el tipo de dato ingresado");
+    			return false;
+    		}
+    	}
+		return false;
+    }
 
-		
+	public JTextField getTxtId() {
+		return txtId;
+	}
+
+	public void setTxtId(JTextField txtId) {
+		this.txtId = txtId;
+	}
+
+	public JTextField getTxtPrimernombre() {
+		return txtPrimernombre;
+	}
+
+	public void setTxtPrimernombre(JTextField txtPrimernombre) {
+		this.txtPrimernombre = txtPrimernombre;
+	}
+
+	public JTextField getTxtSegundonombre() {
+		return txtSegundonombre;
+	}
+
+	public void setTxtSegundonombre(JTextField txtSegundonombre) {
+		this.txtSegundonombre = txtSegundonombre;
+	}
+
+	public JTextField getTxtPrimerapellido() {
+		return txtPrimerapellido;
+	}
+
+	public void setTxtPrimerapellido(JTextField txtPrimerapellido) {
+		this.txtPrimerapellido = txtPrimerapellido;
+	}
+
+	public JTextField getTxtSegundoapellido() {
+		return txtSegundoapellido;
+	}
+
+	public void setTxtSegundoapellido(JTextField txtSegundoapellido) {
+		this.txtSegundoapellido = txtSegundoapellido;
+	}
+
+	public JTextField getTxtExtensioncelular() {
+		return txtExtensioncelular;
+	}
+
+	public void setTxtExtensioncelular(JTextField txtExtensioncelular) {
+		this.txtExtensioncelular = txtExtensioncelular;
+	}
+
+	public JTextField getTxtNumcelular() {
+		return txtNumcelular;
+	}
+
+	public void setTxtNumcelular(JTextField txtNumcelular) {
+		this.txtNumcelular = txtNumcelular;
+	}
+
+	public JComboBox<Format> getTxtTipoid() {
+		return txtTipoid;
+	}
+
+	public void setTxtTipoid(JComboBox<Format> txtTipoid) {
+		this.txtTipoid = txtTipoid;
+	}
+	
+	
 }

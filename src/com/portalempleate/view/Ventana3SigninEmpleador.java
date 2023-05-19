@@ -31,6 +31,10 @@ public class Ventana3SigninEmpleador extends JFrame {
 	int xMouse, yMouse;
 	private JLabel labelExit;
 	
+	public JLabel labelAtras;
+	public JPanel btnAtras;
+	
+	public JPanel registarEmpleador;
 	
 	/**
 	 *  Launch the application
@@ -140,6 +144,39 @@ public class Ventana3SigninEmpleador extends JFrame {
 		labelExit.setHorizontalAlignment(SwingConstants.CENTER);
 		labelExit.setVerticalAlignment(SwingConstants.CENTER);
 		
+		btnAtras = new JPanel();
+		btnAtras.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				Home frame = new Home();
+				frame.setVisible(true);
+				dispose();
+			}
+
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				btnAtras.setBackground(new Color(68, 116, 148));
+				labelAtras.setForeground(Color.white);
+			}
+/*
+			@Override
+			public void mouseExited(MouseEvent e) {
+				btnAtras.setBackground(Color.white);
+				labelAtras.setForeground(Color.black);
+			}*/
+		});
+		btnAtras.setLayout(null);
+		btnAtras.setBackground(Color.WHITE);
+		btnAtras.setBounds(0, 0, 55, 45);
+		panel_1.add(btnAtras);
+
+		labelAtras = new JLabel("<-");
+		labelAtras.setFont(new Font("Berlin Sans FB", Font.PLAIN, 30));
+		labelAtras.setBounds(0, 0, 55, 45);
+		btnAtras.add(labelAtras);
+		labelAtras.setHorizontalAlignment(SwingConstants.CENTER);
+		labelAtras.setVerticalAlignment(SwingConstants.CENTER);
+		
 		return panel_1;
 	}
 	
@@ -231,32 +268,33 @@ public class Ventana3SigninEmpleador extends JFrame {
 		lblBtnNext.setFont(new Font("Berlin Sans FB Demi", Font.PLAIN, 22));
 		
 		
-		JPanel btnNext = new JPanel();
-		btnNext.setBackground(new Color(50,89,119));
-		btnNext.addMouseListener(
+		registarEmpleador = new JPanel();
+		registarEmpleador.setBackground(new Color(50,89,119));
+		registarEmpleador.addMouseListener(
 			new MouseAdapter() {
 				@Override
 				public void mouseEntered(MouseEvent e) {
-					btnNext.setBackground(new Color(68,116,148));
+					registarEmpleador.setBackground(new Color(68,116,148));
 				}
 		
 				@Override
 				public void mouseExited(MouseEvent e) {
-					btnNext.setBackground(new Color(50,89,119));
+					registarEmpleador.setBackground(new Color(50,89,119));
 				}
+				/*
 				@Override
 				public void mouseClicked(MouseEvent e) {
 					
-				}
+				} */
 		
 			}
 		);
-		btnNext.setBounds(300, 450, 200, 50);
-		btnNext.setLayout(null);
-		btnNext.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		registarEmpleador.setBounds(300, 450, 200, 50);
+		registarEmpleador.setLayout(null);
+		registarEmpleador.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		//btnLogin.setBorder(new LineBorder(Color.white, 10, true));
-		btnNext.add(lblBtnNext);	
-		panelForm.add(btnNext);
+		registarEmpleador.add(lblBtnNext);	
+		panelForm.add(registarEmpleador);
 		//fin del boton "siguiente"
 			
 		return panelForm;
@@ -282,6 +320,55 @@ public class Ventana3SigninEmpleador extends JFrame {
         int y = evt.getYOnScreen();
         this.setLocation(x - xMouse, y - yMouse);
 }
-	
+
+    public boolean validarCampos() {
+        if (!txtNombrecomercial.getText().equals("") && !txtNit.getText().equals("") && !txtRazonsocial.getText().equals("")
+                && !txtTiposervicio.getText().equals("")) {
+        	
+        	System.out.println(txtNit.getText().matches("\\d+"));
+        	
+            if (txtNit.getText().matches("\\d+")) {
+                return true;
+            } else {
+                JOptionPane.showMessageDialog(this, "Verifique el tipo de dato ingresado");
+                return false;
+            }
+        }
+        return false;
+    }
+
+	public JTextField getTxtNombrecomercial() {
+		return txtNombrecomercial;
+	}
+
+	public void setTxtNombrecomercial(JTextField txtNombrecomercial) {
+		this.txtNombrecomercial = txtNombrecomercial;
+	}
+
+	public JTextField getTxtNit() {
+		return txtNit;
+	}
+
+	public void setTxtNit(JTextField txtNit) {
+		this.txtNit = txtNit;
+	}
+
+	public JTextField getTxtRazonsocial() {
+		return txtRazonsocial;
+	}
+
+	public void setTxtRazonsocial(JTextField txtRazonsocial) {
+		this.txtRazonsocial = txtRazonsocial;
+	}
+
+	public JTextField getTxtTiposervicio() {
+		return txtTiposervicio;
+	}
+
+	public void setTxtTiposervicio(JTextField txtTiposervicio) {
+		this.txtTiposervicio = txtTiposervicio;
+	}
+    
+    
 	
 }

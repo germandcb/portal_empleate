@@ -40,10 +40,17 @@ public class RegistrarAspirante {
 						
 						
 				}
-			
 			}
 		);
 		
+		vAspirante2.btnAtras.addMouseListener(new MouseAdapter() {
+			
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				vAspirante1.setVisible(true);
+				vAspirante2.dispose();
+			}
+		});		
 		vAspirante2.btnGuardarAspirante.addMouseListener(new MouseAdapter() {
             @Override
              public void mouseClicked(MouseEvent e) {
@@ -51,7 +58,9 @@ public class RegistrarAspirante {
              		
              		registrarUsuarioAspirante();
              		JOptionPane.showInputDialog(this, "Registro exitoso");
-             		
+             		Login frame = new Login();
+					frame.setVisible(true);
+					vAspirante2.dispose();
 					} else {
 						JOptionPane.showInputDialog(this, "Ocurrio un error");
 					}

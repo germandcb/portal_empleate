@@ -48,5 +48,13 @@ public class UsuarioController {
 	public String nombreUsuario(String username) {
 		return usuarioDAO.nombreUsuario(username);
 	}
+
+	public void guardarEmpleador(Usuario usuario) {
+		usuarioDAO.guardarEmpleador(usuario);
+	}
+
+	public Usuario usuarioActualEmp(String correo) {
+		return usuarioDAO.usuarioActualEmp(correo);
+	}
 	
 }

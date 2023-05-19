@@ -17,21 +17,31 @@ import java.awt.event.MouseMotionAdapter;
 import java.awt.event.MouseWheelEvent;
 import java.awt.geom.RoundRectangle2D;
 import java.net.URL;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.plaf.BorderUIResource;
 
+import com.toedter.calendar.JDateChooser;
+
 
 public class Ventana2SigninEmpleador extends JFrame {
 
 	private JPanel contentPane;
-	private JTextField txtTelefonofijo, txtFechadenacimiento, txtCorreo;
+	private JTextField txtTelefonofijo, txtCorreo;
+	private JDateChooser txtFechanac;
     private JPasswordField txtContrasena;
 	int xMouse, yMouse;
 	private JLabel labelExit;
 	
+	public JLabel labelAtras;
+	public JPanel btnAtras;
+	
+	public JPanel btnNext;
 	
 	/**
 	 *  Launch the application
@@ -141,6 +151,40 @@ public class Ventana2SigninEmpleador extends JFrame {
 		labelExit.setHorizontalAlignment(SwingConstants.CENTER);
 		labelExit.setVerticalAlignment(SwingConstants.CENTER);
 		
+		btnAtras = new JPanel();
+		btnAtras.addMouseListener(new MouseAdapter() {
+			/*
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				Home frame = new Home();
+				frame.setVisible(true);
+				dispose();
+			}
+			*/
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				btnAtras.setBackground(new Color(68, 116, 148));
+				labelAtras.setForeground(Color.white);
+			}
+
+			@Override
+			public void mouseExited(MouseEvent e) {
+				btnAtras.setBackground(Color.white);
+				labelAtras.setForeground(Color.black);
+			}
+		});
+		btnAtras.setLayout(null);
+		btnAtras.setBackground(Color.WHITE);
+		btnAtras.setBounds(0, 0, 55, 45);
+		panel_1.add(btnAtras);
+
+		labelAtras = new JLabel("<-");
+		labelAtras.setFont(new Font("Berlin Sans FB", Font.PLAIN, 30));
+		labelAtras.setBounds(0, 0, 55, 45);
+		btnAtras.add(labelAtras);
+		labelAtras.setHorizontalAlignment(SwingConstants.CENTER);
+		labelAtras.setVerticalAlignment(SwingConstants.CENTER);
+		
 		return panel_1;
 	}
 	
@@ -190,14 +234,16 @@ public class Ventana2SigninEmpleador extends JFrame {
 		labelFechanacimiento .setBounds(175, 155, 225, 20);
 		labelFechanacimiento .setFont(new Font("Berlin Sans FB", Font.PLAIN, 18));
 		panelForm.add(labelFechanacimiento );//Fin del titulo
-		txtFechadenacimiento = new JTextField();//Campo de texto
-		txtFechadenacimiento.setBorder(new EmptyBorder(0,10,0,10));
-		txtFechadenacimiento.setPreferredSize(new Dimension(10, 50));
-		txtFechadenacimiento.setFont(new Font("Berlin Sans FB", Font.PLAIN, 18));
-		txtFechadenacimiento.setBackground(new Color(219, 233, 245));
-		txtFechadenacimiento.setForeground(Color.darkGray);
-		txtFechadenacimiento.setBounds(175, 180, 450, 50);
-		panelForm.add(txtFechadenacimiento);//Fin del campo de texto
+		txtFechanac = new JDateChooser();
+		txtFechanac.setBounds(175, 185, 450, 50);
+		txtFechanac.getCalendarButton().setBackground(SystemColor.textHighlight);
+		txtFechanac.setDateFormatString("yyyy-MM-dd");
+		txtFechanac.setForeground(Color.darkGray);
+		txtFechanac.setBackground(new Color(219, 233, 245));
+		txtFechanac.setFont(new Font("Berlin Sans FB", Font.PLAIN, 18));
+		txtFechanac.setPreferredSize(new Dimension(10, 50));
+		txtFechanac.setBorder(new EmptyBorder(0, 0, 0, 0));
+		panelForm.add(txtFechanac);//Fin del campo de texto
 		//Fin de la fecha de nacimiento
 
 		//CAMPO PARA EL CORREO
@@ -241,7 +287,7 @@ public class Ventana2SigninEmpleador extends JFrame {
 		lblBtnNext.setFont(new Font("Berlin Sans FB Demi", Font.PLAIN, 22));
 		
 		
-		JPanel btnNext = new JPanel();
+		btnNext = new JPanel();
 		btnNext.setBackground(new Color(50,89,119));
 		btnNext.addMouseListener(
 			new MouseAdapter() {
@@ -254,13 +300,14 @@ public class Ventana2SigninEmpleador extends JFrame {
 				public void mouseExited(MouseEvent e) {
 					btnNext.setBackground(new Color(50,89,119));
 				}
+				/*
 				@Override
 				public void mouseClicked(MouseEvent e) {
 					Ventana3SigninEmpleador frame = new Ventana3SigninEmpleador();
 					frame.setVisible(true);
 					dispose();
 				}
-		
+				*/
 			}
 		);
 		btnNext.setBounds(300, 450, 200, 50);
@@ -293,8 +340,66 @@ public class Ventana2SigninEmpleador extends JFrame {
         int x = evt.getXOnScreen();
         int y = evt.getYOnScreen();
         this.setLocation(x - xMouse, y - yMouse);
-}
+    }
 
-		
-	
+    public boolean validarCampos() {
+        if (!txtTelefonofijo.getText().equals("") && !txtCorreo.getText().equals("") && txtFechanac.getDate() != null
+                && !txtContrasena.getText().equals("")) {
+
+            if (esCorreoElectronicoValido(txtCorreo.getText()) && txtTelefonofijo.getText().matches("\\d+")) {
+                return true;
+            } else {
+                JOptionPane.showMessageDialog(this, "Verifique el tipo de dato ingresado");
+                return false;
+            }
+        }
+        return false;
+    }
+    
+    public boolean esCorreoElectronicoValido(String correo) {
+        // La expresión regular para validar correos electrónicos
+        String regex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$";
+        
+        // Compilar la expresión regular en un patrón
+        Pattern pattern = Pattern.compile(regex);
+        
+        // Crear un objeto Matcher para la cadena de texto
+        Matcher matcher = pattern.matcher(correo);
+        
+        // Devolver true si la cadena coincide con la expresión regular
+        return matcher.matches();
+    }
+
+	public JTextField getTxtTelefonofijo() {
+		return txtTelefonofijo;
+	}
+
+	public void setTxtTelefonofijo(JTextField txtTelefonofijo) {
+		this.txtTelefonofijo = txtTelefonofijo;
+	}
+
+	public JTextField getTxtCorreo() {
+		return txtCorreo;
+	}
+
+	public void setTxtCorreo(JTextField txtCorreo) {
+		this.txtCorreo = txtCorreo;
+	}
+
+	public JDateChooser getTxtFechanac() {
+		return txtFechanac;
+	}
+
+	public void setTxtFechanac(JDateChooser txtFechanac) {
+		this.txtFechanac = txtFechanac;
+	}
+
+	public JPasswordField getTxtContrasena() {
+		return txtContrasena;
+	}
+
+	public void setTxtContrasena(JPasswordField txtContrasena) {
+		this.txtContrasena = txtContrasena;
+	}
+    
 }

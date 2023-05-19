@@ -20,6 +20,7 @@ import com.portalempleate.controller.UsuarioController;
 
 
 
+
 public class Login extends JFrame {
 
 	private JPanel contentPane;
@@ -27,6 +28,8 @@ public class Login extends JFrame {
 	private JPasswordField txtContrasena;
 	int xMouse, yMouse;
 	private JLabel labelExit;
+	public JLabel labelAtras;
+	public JPanel btnAtras;
 	
 	private UsuarioController usuarioController;
 	
@@ -139,6 +142,39 @@ public class Login extends JFrame {
 		labelExit.setHorizontalAlignment(SwingConstants.CENTER);
 		labelExit.setVerticalAlignment(SwingConstants.CENTER);
 		
+		btnAtras = new JPanel();
+		btnAtras.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				Home frame = new Home();
+				frame.setVisible(true);
+				dispose();
+			}
+
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				btnAtras.setBackground(new Color(68, 116, 148));
+				labelAtras.setForeground(Color.white);
+			}
+
+			@Override
+			public void mouseExited(MouseEvent e) {
+				btnAtras.setBackground(Color.white);
+				labelAtras.setForeground(Color.black);
+			}
+		});
+		btnAtras.setLayout(null);
+		btnAtras.setBackground(Color.WHITE);
+		btnAtras.setBounds(0, 0, 55, 45);
+		panel_1.add(btnAtras);
+
+		labelAtras = new JLabel("<-");
+		labelAtras.setFont(new Font("Berlin Sans FB", Font.PLAIN, 30));
+		labelAtras.setBounds(0, 0, 55, 45);
+		btnAtras.add(labelAtras);
+		labelAtras.setHorizontalAlignment(SwingConstants.CENTER);
+		labelAtras.setVerticalAlignment(SwingConstants.CENTER);
+				
 		return panel_1;
 	}
 	
@@ -353,8 +389,7 @@ public class Login extends JFrame {
 				dispose();
 			} 
 			else if (usuarioController.tipoDeUsuairo(txtUsuario.getText()) == 2) {
-				MenuEmpleador frame = new MenuEmpleador();
-				frame.setVisible(true);
+				LogicaEmpleador logicaEmpleador = new LogicaEmpleador(this);
 				dispose();
 			} else {
 				JOptionPane.showMessageDialog(this, "Ocurrio un Error inesperado");
