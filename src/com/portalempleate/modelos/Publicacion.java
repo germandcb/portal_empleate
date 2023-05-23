@@ -52,6 +52,23 @@ public class Publicacion {
 	}
 
 
+	public Publicacion(String tipoId, String idUsuario,String cargo, Integer vacantes, String contratante, String tipoEmpleo, String tipoJornada,
+			String experiencia, String modalidad, Date fechaExpiracion, String descripcion,
+			boolean estado) {
+		super();
+		this.tipoId = tipoId;
+		this.idUsuario = idUsuario;
+		this.cargo = cargo;
+		this.vacantes = vacantes;
+		this.contratante = contratante;
+		this.tipoEmpleo = tipoEmpleo;
+		this.tipoJornada = tipoJornada;
+		this.experiencia = experiencia;
+		this.modalidad = modalidad;
+		this.fechaExpiracion = fechaExpiracion;
+		this.descripcion = descripcion;
+		this.estado = estado;
+	}
 
 
 

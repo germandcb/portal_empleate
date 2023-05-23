@@ -46,27 +46,29 @@ public class VentanaPublicaciones extends JFrame {
 	private JPanel contentPane;
 	int xMouse, yMouse, AliVertical1 = 65, AliVertical2 = 135, AliVertical3 = 205, AliVertical4 = 275;
 	private JLabel labelExit;
-	private JTable tablaPublic;
-	private DefaultTableModel modelo;
-	private JScrollPane scrollPane;
+	public JTable tablaPublic;
+	public DefaultTableModel modelo;
+	public JScrollPane scrollPane;
 	
 	public JLabel labelAtras;
     public JPanel btnAtras;
     public JPanel btnRegistrar;
+    public TableActionEvent event;
 	
-    private PublicacionController publicacionesController;
+    public PublicacionController publicacionesController;
 	/**
 	 *  Launch the application
 	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
+				/*
 				try {
-					JFrame frame = new VentanaPublicaciones();
+					JFrame frame = new VentanaPublicaciones("100000102");
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
-				}
+				} */
 			}
 		});
 	}
@@ -74,7 +76,7 @@ public class VentanaPublicaciones extends JFrame {
 	/**
 	 * Create the frame 
 	 */
-	public VentanaPublicaciones() {
+	public VentanaPublicaciones(String id) {
 		this.publicacionesController = new PublicacionController();
 		setIconImage(new ImageIcon(getClass().getResource("/com/portalempleate/imgs/iconEmp.png")).getImage());
 		setResizable(false);
@@ -88,12 +90,12 @@ public class VentanaPublicaciones extends JFrame {
 		contentPane.setLayout(null);
 		setLocationRelativeTo(null);
 		
-		contentPane.add(panelMain());
+		contentPane.add(panelMain(id));
 		
 		
 	}
 	
-	public JPanel panelMain() {
+	public JPanel panelMain(String id) {
 		JPanel panel = new JPanel();
 		panel.setBounds(0, 0, 788, 572);
 		panel.setBackground(new Color(255, 255, 255));
@@ -101,7 +103,7 @@ public class VentanaPublicaciones extends JFrame {
 		panel.setLayout(null);
 		
 		panel.add(panelHeader());
-		panel.add(panelContent());
+		panel.add(panelContent(id));
 		
 		JPanel headerMove = new JPanel();
 		headerMove.addMouseMotionListener(new MouseMotionAdapter() {
@@ -201,7 +203,7 @@ public class VentanaPublicaciones extends JFrame {
 		return panel_1;
 	}
 	
-	public JPanel panelContent() {
+	public JPanel panelContent(String id) {
 		JPanel panelContent = new JPanel();
 		panelContent.setBackground(new Color(255, 255, 255));
 		panelContent.setBounds(0, 45, 788, 572);
@@ -225,7 +227,8 @@ public class VentanaPublicaciones extends JFrame {
 		//modelo = new DefaultTableModel();
 		modelo.setColumnIdentifiers(columnas);
 		
-		listarPublicaciones();
+		listarPublicaciones(id);
+		
 						
 		this.tablaPublic.setDefaultRenderer(Object.class, new RenderTable());
 		
@@ -266,6 +269,26 @@ public class VentanaPublicaciones extends JFrame {
 		return panelContent;
 	}
 	
+
+	public void listarPublicaciones(String id) {		
+		List<Publicacion> listaPublicaciones = publicacionesController.listar(id);
+		try {
+			for(Publicacion publicacion : listaPublicaciones) {
+				modelo.addRow(new Object[]{
+						publicacion.getPublicacionId(),
+						publicacion.getCargo(),  
+						publicacion.getTipoEmpleo(),
+						publicacion.getFechaPublicacion(), 
+						publicacion.getFechaExpiracion()
+						});
+				tablaPublic.getColumnModel().getColumn(5).setCellRenderer(new TableActionCellRender());
+				tablaPublic.getColumnModel().getColumn(5).setCellEditor(new TableActionCellEditor(tableroEventos()));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
 	public void listarPublicaciones() {
 		//ArrayList<Publicacion> listaPublicaciones = new ArrayList<Publicacion>();
 		/*
@@ -302,34 +325,8 @@ public class VentanaPublicaciones extends JFrame {
 			tablaPublic.getColumnModel().getColumn(5).setCellRenderer(new TableActionCellRender());
 			tablaPublic.getColumnModel().getColumn(5).setCellEditor(new TableActionCellEditor(event));
 		}
-		*/
 		
-		TableActionEvent event = new TableActionEvent() {
-			@Override
-			public void onView(int row) {
-				System.out.println("Edit row : " + row);
-				if (tablaPublic.isEditing()) {
-					tablaPublic.getCellEditor().stopCellEditing();
-				}
-				obtenerDatosPublicacion(row);
-			}
-			
-			@Override
-			public void onEdit(int row) {
-				System.out.println("Delet row : " + row);
-			}
-			
-			@Override
-			public void onDelete(int row) {
-				System.out.println("View row : " + row);
-				if (tablaPublic.isEditing()) {
-					tablaPublic.getCellEditor().stopCellEditing();
-				}
-				
-				eliminarPublicacion(row);
-				
-			}
-		};
+		*/
 		
 		List<Publicacion> listaPublicaciones = this.publicacionesController.listar();
 		try {
@@ -342,11 +339,42 @@ public class VentanaPublicaciones extends JFrame {
 						publicacion.getFechaExpiracion()
 						});
 				tablaPublic.getColumnModel().getColumn(5).setCellRenderer(new TableActionCellRender());
-				tablaPublic.getColumnModel().getColumn(5).setCellEditor(new TableActionCellEditor(event));
+				tablaPublic.getColumnModel().getColumn(5).setCellEditor(new TableActionCellEditor(tableroEventos()));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	} 
+	
+	
+	public TableActionEvent tableroEventos() {
+		
+		/*
+		event = new TableActionEvent() {
+			@Override
+			public void onView(int row) {
+				System.out.println("View row : " + row);
+				if (tablaPublic.isEditing()) {
+					tablaPublic.getCellEditor().stopCellEditing();
+				}
+				obtenerDatosPublicacion(row);
+			}
+			
+			@Override
+			public void onEdit(int row) {}
+			
+			@Override
+			public void onDelete(int row) {
+				System.out.println("Delete row : " + row);
+				if (tablaPublic.isEditing()) {
+					tablaPublic.getCellEditor().stopCellEditing();
+				}
+				
+				eliminarPublicacion(row);
+				
+			}
+		}; */
+		return event;
 	}
 	
 	public void eliminarPublicacion(int row) {
@@ -398,9 +426,13 @@ public class VentanaPublicaciones extends JFrame {
 	                        + "Fecha Expiración: " + pb.getFechaExpiracion() + "\n"
 	                        + "Descripción : " + pb.getDescripcion() + "\n";
 
-	                JOptionPane.showMessageDialog(null, mensaje, "Datos de publicación", JOptionPane.INFORMATION_MESSAGE);
-	            }, null);
+	              JOptionPane.showMessageDialog(null, mensaje, "Datos de publicación", JOptionPane.INFORMATION_MESSAGE);
+	      }, null);
 	}
+	
+	
+
+	
 	
 	private boolean tieneFilaElegida(JTable tb) {
 		return tb.getSelectedRowCount() == 0 || tb.getSelectedColumnCount() == 0;

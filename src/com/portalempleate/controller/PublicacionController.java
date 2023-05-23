@@ -18,6 +18,10 @@ public class PublicacionController {
 	public List<Publicacion> listar() {
 		return publicacionDAO.listar();
 	}
+	
+	public List<Publicacion> listar(String id) {
+		return publicacionDAO.listar(id);
+	}
 
 	public void guardarPublicacion(Publicacion publicacion) {
 		publicacionDAO.guardarPublicacion(publicacion);		
@@ -30,4 +34,11 @@ public class PublicacionController {
 	public Publicacion mostrarPublicacion(Integer id) {
 		return publicacionDAO.mostrarPublicacion(id);
 	}
+
+	public int actualizarPublicacion(Publicacion publicacion, Integer id) {
+		return publicacionDAO.actualizarPublicacion(publicacion, id);	
+	}
+
+	
+	
 }

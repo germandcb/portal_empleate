@@ -36,6 +36,27 @@ public class PublicacionDAO {
 			throw new RuntimeException(e);
 		}
 	}
+	
+	public List<Publicacion> listar(String id) {
+		List<Publicacion> publicacion = new ArrayList<Publicacion>();
+		
+		try {
+			PreparedStatement statement = con.prepareStatement(
+					"SELECT pub_id, pub_cargo, pub_tipo_empleo, pub_fecha_publicacion, pub_fecha_expiracion FROM publicacion "
+					+ " WHERE usu_id = ?");
+			
+			try (statement) {
+				statement.setString(1, id);
+				statement.execute();
+				
+				buscarPublicaciones(publicacion, statement);
+			}
+			return publicacion;
+			
+		}  catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+	}
 
 	private void buscarPublicaciones(List<Publicacion> publicacion, PreparedStatement statement) throws SQLException {
 		ResultSet resultSet = statement.getResultSet();		
@@ -144,4 +165,37 @@ public class PublicacionDAO {
 			throw new RuntimeException(e);
 		}
 	}
+
+	public int actualizarPublicacion(Publicacion publicacion, Integer id) {
+		try {
+			
+			final PreparedStatement statement = con.prepareStatement(
+					"UPDATE publicacion SET pub_cargo = ?, pub_vacantes = ?, pub_tipo_empleo = ?, pub_tipo_jornada = ?, "
+					+ " pub_experiencia = ?, pub_modalidad = ?, pub_fecha_expiracion = ?, pub_descripcion = ? "
+					+ " WHERE pub_id = ?");
+			
+			try (statement) {
+				statement.setString(1, publicacion.getCargo());
+				statement.setInt(2, publicacion.getVacantes());
+				statement.setString(3, publicacion.getTipoEmpleo());
+				statement.setString(4, publicacion.getTipoJornada());
+				statement.setString(5, publicacion.getExperiencia());
+				statement.setString(6, publicacion.getModalidad());
+				statement.setDate(7, (Date) publicacion.getFechaExpiracion());
+				statement.setString(8, publicacion.getDescripcion());
+				statement.setInt(9, id);
+						
+				statement.execute();
+				
+				int updateCount = statement.getUpdateCount();
+				return updateCount;
+			}
+			
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}		
+		
+	}
+
+	
 }
